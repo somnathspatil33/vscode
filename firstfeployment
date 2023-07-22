@@ -1,0 +1,153 @@
+
+
+
+<div class="row" id="singlepanel1" ng-if="getpageconfig.isTrafoLoss || getpageconfig.isTrafoAlarms">
+
+    <div ng-class="getpageconfig.isTrafoAlarms?'col-md-3':'col-md-6'" style="padding-left:0px;padding-right:0px">
+        <widget widget-title="Generation" id="trafoGeneration" has-filter=true filter-opens="filterOpens" has-maximise=true has-flip=false
+                flip-count="2" has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row1panel">
+            <!--<export-widget title="Generation" data="columns"></export-widget>-->
+            <div class="row" style="height:100%;" trafosingle-generation="">
+                <div class="col-md-9" style="height:91%;padding-left: 5px;" id="trafogen">
+                    <ui-custom-pills id="pillsSingleGen" pills="pills" click-callback="tabChanged(tab)"></ui-custom-pills>
+                    <div ng-show="load" class="myloaderchart">
+                        <div class="loader">Loading...</div>
+                    </div>
+                    <div bar-chart series='series' id='trafosinglegen' data='data' axes='axes' colors='colors' columns='columns' threshold='threshold' legend=false></div>
+                </div>
+                <div class="col-md-3 sidetextdiv">
+                    <span class="sidetext">{{actualGen|energyfilter}}</span><br>
+                    <span class="sidetext-sub">{{actualGen|energyfilterUnits}}</span><br>
+                </div>
+            </div>
+
+        </widget>
+    </div>
+
+    <div ng-class="getpageconfig.isTrafoAlarms?'col-md-3':'col-md-6'" style="padding-left:0px;padding-right:0px" ng-if="getpageconfig.isTrafoLoss">
+        <widget widget-title="Trafo Loss" id="trafoLoss" has-filter=true filter-opens="filterOpens" has-maximise=true has-flip=false has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()" panel-classes="row1panel">
+            <!--<export-widget title="Trafo Loss" data="columns"></export-widget>-->
+
+            <div class="row" style="height:100%;" trafosingle-loss="">
+                <div class="col-md-9" style="height:91%;padding-left: 5px;" id="trafoTrafoloss">
+                    <ui-custom-pills id="pillsSingleAvail" pills="pills" click-callback="tabChanged(tab)"></ui-custom-pills>
+                    <div ng-show="load" class="myloaderchart">
+                        <div class="loader">Loading...</div>
+                    </div>
+                    <div bar-chart series='series' id='trafosingleLoss' data='data' axes='axes' colors='colors' columns='columns' threshold='threshold' legend=false></div>
+                </div>
+                <div class="col-md-3 sidetextdiv">
+                    <span class="sidetext">{{actualTrafoLoss|energyfilter}}</span><br>
+                    <span class="sidetext-sub">{{actualTrafoLoss|energyfilterUnits}}</span><br>
+                    <span class="sidetextbelow">Loss</span>
+                    <span>{{lossPercentage}} %</span>
+                </div>
+            </div>
+
+
+        </widget>
+    </div>
+
+
+
+    <div ng-class="getpageconfig.isTrafoLoss? 'col-md-6' : 'col-md-9'" style="padding-left:0px;padding-right:0px" ng-if="getpageconfig.isTrafoAlarms">
+        <widget widget-title="Status Alarms" subtitle="" has-subtitle=true id="statusAlarms" has-filter=true has-maximise=true has-flip=false has-export=false shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row1panel">
+            <div style="overflow: auto;height: 170px;" status-alarms>
+                <div id="status" class="col-sm-6" ng-repeat="(key,val) in response">
+
+                    <span ng-class="{'trafoalarm-alert-icon':val== true,'trafoalarm-healthy-icon': val==false}"></span><span> {{key}}</span>
+                    <hr>
+                </div>
+            </div>
+        </widget>
+    </div>
+
+</div>
+<!--only if both false-->
+<div class="row" id="singlepanel1" ng-if="!getpageconfig.isTrafoLoss && !getpageconfig.isTrafoAlarms">
+
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px">
+        <widget widget-title="Generation" id="trafoGeneration" has-filter=true filter-opens="filterOpens" has-maximise=true has-flip=false
+                flip-count="2" has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row1panel">
+<!--            <export-widget title="Generation" data="columns"></export-widget>-->
+            <div class="row" style="height:100%;" trafosingle-generation="">
+                <div class="col-md-9" style="height:91%;padding-left: 5px;" id="trafogen">
+                    <ui-custom-pills id="pillsSingleGen" pills="pills" click-callback="tabChanged(tab)"></ui-custom-pills>
+                    <div ng-show="load" class="myloaderchart">
+                        <div class="loader">Loading...</div>
+                    </div>
+                    <div bar-chart series='series' id='trafosinglegen' data='data' axes='axes' colors='colors' columns='columns' threshold='threshold' legend=false></div>
+                </div>
+                <div class="col-md-3 sidetextdiv">
+                    <span class="sidetext">{{actualGen|energyfilter}}</span><br>
+                    <span class="sidetext-sub">{{actualGen|energyfilterUnits}}</span><br>
+                </div>
+            </div>
+
+        </widget>
+    </div>
+</div>
+<!--ends-->
+
+<div class="row" id="singlepanel2">
+    <div class="col-md-6" style="padding-left:0px;padding-right:0px;" ng-if="getpageconfig.isTrafoEffi">
+
+        <widget widget-title="Transformer Efficiency" subtitle="(%)" id="transEfficiency" has-subtitle=true has-filter=true has-maximise=true
+                has-flip=false has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row2panel" type="single">
+
+            <!--<export-widget title="Transformer Efficiency" data="columns"></export-widget>-->
+            <!--  <div   style="position: absolute;right: 200px;top: 50px;"><b>{{lastData.toFixed(2)}}%</b></div>-->
+            <div ng-show="load" class="myloaderchart">
+                <div class="loader">Loading...</div>
+            </div>
+            <trans-efficiency></trans-efficiency>
+
+        </widget>
+    </div>
+
+    <div ng-class="getpageconfig.isTrafoEffi?'col-md-6':'col-md-12'" style="padding-left:0px;padding-right:0px">
+        <widget widget-title="Winding,Oil & Ambient Temperature" subtitle="(°C)" id="ambTemp" has-subtitle=true has-filter=true has-maximise=true
+                has-flip=false has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row2panel" type="single">
+            <!--<export-widget title="Winding,Oil & Ambient Temperature" data="columns"></export-widget>-->
+            <div ng-show="load" class="myloaderchart">
+                <div class="loader">Loading...</div>
+            </div>
+            <amb-temp></amb-temp>
+
+        </widget>
+    </div>
+</div>
+
+
+<div class="row" id="singlepanel3">
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
+
+        <widget widget-title="Trafo Parameters" subtitle="" id="deviceChar" has-subtitle=true has-filter=false has-maximise=true
+                has-flip=false has-export=false shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row3panel" type="single" drops="true">
+            <!-- <export-widget conversion="false" chart=false selector="#tab"  vertical=false title="Device Characteristics" data="columns"></export-widget>-->
+            <div ng-show="load" class="myloaderchart">
+                <div class="loader">Loading...</div>
+            </div>
+            <device-characteristics></device-characteristics>
+
+        </widget>
+    </div>
+   <!-- <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
+        <widget widget-title="Winding Temperature - Oil Temperature" subtitle="(°C)" id="windOilTemp" has-subtitle=true has-filter=true
+                has-maximise=true has-flip=false has-export=true shared-props="sharedProps" maximise-callback="maximiseParCallback()" minimize-callback="minimizeParCallback()"
+            panel-classes="row3panel" type="single" drops="true">
+            &lt;!&ndash;<export-widget title="Winding Temperature - Oil Temperature" data="columns"></export-widget>&ndash;&gt;
+            <div ng-show="load" class="myloaderchart">
+                <div class="loader">Loading...</div>
+            </div>
+            <oil-temp></oil-temp>
+
+        </widget>
+    </div>-->
+</div>
